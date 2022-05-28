@@ -15,6 +15,9 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from collections import defaultdict
 
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning) 
+
 # import config
 from ingredient_parser import ingredient_parser
 # Instantiate the parser
@@ -204,8 +207,7 @@ class TfidfEmbeddingVectorizer(object):
 def get_recs(ingredients, N=5, mean=False):
     # load in word2vec model
     model = Word2Vec.load("model_cbow.bin")
-    # model.init_sims(replace=True)
-    model.wv.get_vector("rock", norm=True)
+    model.init_sims(replace=True)
     if model:
         pass
         # print("Successfully loaded model")

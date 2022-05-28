@@ -1,5 +1,4 @@
 unidecode
-json
 argparse
 numpy
 pandas

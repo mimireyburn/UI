@@ -5,7 +5,7 @@ import string
 import ast
 import re
 import unidecode
-# import nltk
+import nltk
 
 nltk.data.path.append('./nltk_data/')
 nltk.download('wordnet')

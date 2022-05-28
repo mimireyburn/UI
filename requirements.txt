@@ -1,5 +1,4 @@
 unidecode
-ast
 json
 argparse
 numpy

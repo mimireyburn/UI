@@ -5,12 +5,14 @@ import string
 import ast
 import re
 import unidecode
+# import nltk
 
-# nltk.download('wordnet')
-# from nltk.stem import WordNetLemmatizer
-# from nltk.corpus import wordnet
-# from collections import Counter
 nltk.data.path.append('./nltk_data/')
+nltk.download('wordnet')
+from nltk.stem import WordNetLemmatizer
+from nltk.corpus import wordnet
+from collections import Counter
+
 # import config
 
 # Weigths and measures are words that will not add value to the model. I got these standard words from

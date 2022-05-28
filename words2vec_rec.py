@@ -204,7 +204,8 @@ class TfidfEmbeddingVectorizer(object):
 def get_recs(ingredients, N=5, mean=False):
     # load in word2vec model
     model = Word2Vec.load("model_cbow.bin")
-    model.init_sims(replace=True)
+    # model.init_sims(replace=True)
+    model.wv.get_vector("rock", norm=True)
     if model:
         pass
         # print("Successfully loaded model")

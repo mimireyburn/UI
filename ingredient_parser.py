@@ -8,9 +8,9 @@ import re
 import unidecode
 
 # nltk.download('wordnet')
-from nltk.stem import WordNetLemmatizer
-from nltk.corpus import wordnet
-from collections import Counter
+# from nltk.stem import WordNetLemmatizer
+# from nltk.corpus import wordnet
+# from collections import Counter
 nltk.data.path.append('./nltk_data/')
 # import config
 

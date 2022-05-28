@@ -1,4 +1,4 @@
-unidecode\n
+unidecode
 ast
 json
 argparse

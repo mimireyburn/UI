@@ -1,7 +1,6 @@
 # /Users/Jack/Documents/Projects/Whatscooking-/src
 
 import pandas as pd
-import nltk
 import string
 import ast
 import re

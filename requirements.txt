@@ -1,0 +1,6 @@
+unidecode\n
+ast
+json
+argparse
+numpy
+pandas

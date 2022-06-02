@@ -16,7 +16,7 @@
     /* Change body font */ 
     body, a{
       font-family: 'Atkinson Hyperlegible', sans-serif; 
-      background-color: white;
+      /* background-color: white; */
     }
 
     /* Set gray background color and 100% height */
@@ -50,11 +50,27 @@
       color:#afbc26;
     }
 
-    .btn {
+    .btn-info {
       background-color: #afbc26;
       margin-top: 30px;
       border: none
     }
+
+    .btn-danger {
+      background-color: red;
+      border: none
+    }
+
+    .btn-warning {
+      background-color: orange;
+      border: none
+    }
+
+    .btn-success {
+      background-color: #afbc26;
+      border: none
+    }
+  
   
 
     /* On small screens, set height to 'auto' for the grid */
@@ -69,19 +85,21 @@
 
 <nav class="navbar navbar-inverse visible-xs">
   <div class="container-fluid">
-    <div class="navbar-header" style="background-color: #afbc26">
+    <div class="navbar-header" style="background-color:#afbc26">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                        
+        <span class="icon-bar"></span>         
+        <span class="icon-bar"></span>                
       </button>
-      <a class="navbar-brand" style="color: whitesmoke" href="#">Cook Up a Plan</a>
+      <a class="navbar-brand" style="color:whitesmoke" href="#">Cook Up a Plan</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
         <li class="active"><a href="#">Inventory</a></li>
         <li><a href="#">Recipes</a></li>
         <li><a href="#">Notifications</a></li>
+        <li><a href="#">Dashboard</a></li>
         <!-- <li><a href="#">Geo</a></li> -->
       </ul>
     </div>
@@ -97,6 +115,7 @@
         <li><a id="InventButton" href="#section1">Inventory</a></li>
         <li><a id="MenuButton" href="#section2">Recipes</a></li>
         <li><a id="NotifButton" href="#section3">Notifications</a></li>
+        <li><a id="" href="#section4">Dashboard</a></li>
         <!-- <li><a href="#section3">Geo</a></li> -->
       </ul><br>
     </div>
@@ -117,6 +136,74 @@
         </a>
       </div>
     </div>
+
+
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" role="dialog">
+      <div class="modal-dialog">
+      
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Success</h4>
+          </div>
+          <div class="modal-body">
+            <p>Some text in the modal.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+
+
+    <!-- Warning Modal -->
+    <div class="modal fade" id="warningModal" role="dialog">
+      <div class="modal-dialog">
+      
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Warning</h4>
+          </div>
+          <div class="modal-body">
+            <p>Some text in the modal.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+
+    
+    <!-- Danger Modal -->
+    <div class="modal fade" id="dangerModal" role="dialog">
+      <div class="modal-dialog">
+      
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Danger</h4>
+          </div>
+          <div class="modal-body">
+            <p>Some text in the modal.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+
+
     <div class="col-sm-8">
       <div class="inventory" id="Inventory">
         <h4>Food Inventory</h4>
@@ -124,7 +211,7 @@
         <table class="table" id="table" align = "center" border="1px"></table>
       </div>
       <div class="inventory" id="Recipes" style="display:none">
-        <h4>Suggested Recipes</h4>
+        <h4>Top 5 Recipes by Inventory</h4>
         <p id="recipes" ></p>
         <table class="table" id="menu-table" align = "center" border="1px"></table>
       </div>
@@ -284,7 +371,16 @@
                       var today = new Date()
                       var diff = mydate-today.getTime()
                       var days = Math.floor(diff/(1000*3600*24))
-                      cell.innerHTML = days + " days";
+                      if (days>=3) {
+                        cell.innerHTML = '<button type="button" class="btn btn-success" style="color:"white" data-toggle="modal" data-target="#myModal">'+ days + " days" + '</button>';
+                      }
+                      else if (days>=1) {
+                        cell.innerHTML = '<button type="button" class="btn btn-warning" style="color:"white" data-toggle="modal" data-target="#myModal">'+ days + " days" + '</button>';
+                      }
+                      else {
+                        cell.innerHTML = '<button type="button" class="btn btn-danger" style="color:"white" data-toggle="modal" data-target="#myModal">'+ days + " days" + '</button>';
+                      }
+                      // cell.innerHTML = days + " days";
                       x[i] = (list[i][cols[1]], days)
                     }
                   }
@@ -294,20 +390,24 @@
                     cell.innerHTML = list[i][cols[j]];
                     
                     if (j===3) {
-                      var parts =expiry.split('/');
+                      var parts = expiry.split('/');
                       var mydate = new Date((20+parts[2]), parts[1] - 1, parts[0]); 
                       var cell = trow.insertCell(-1);
                       var today = new Date()
                       var diff = today.getTime()-mydate
                       var days = Math.floor(diff/(1000*3600*24))
-                      cell.innerHTML = days + " days";
+                      if (days>=3) {
+                        cell.innerHTML = '<button type="button" class="btn btn-success" style="color:"white" data-toggle="modal" data-target="#successModal">'+ days + " days" + '</button>';
+                      }
+                      else if (days>=1) {
+                        cell.innerHTML = '<button type="button" class="btn btn-warning" style="color:"white" data-toggle="modal" data-target="#warningModal">'+ days + " days" + '</button>';
+                      }
+                      else {
+                        cell.innerHTML = '<button type="button" class="btn btn-danger" style="color:"white" data-toggle="modal" data-target="#dangerModal">'+ days + " days" + '</button>';
+                      }
                       x[i] = [list[i][cols[1]], days];
                     }
                   }
-                  // if (j===4) {
-                  //   var cell = trow.insertCell(-1);
-                  //   var expiry = new Date(expiry)
-                  // }
               }
             }
             
@@ -317,33 +417,23 @@
           el.innerHTML = "";
           el.appendChild(table);
       return x
-      // text = createList(foods, timestamp, date);
-
-      // document.getElementById("items").innerHTML = text;
-      // document.getElementById("times").innerHTML = timestamp;
-      // document.getElementById("date").innerHTML = DateDiff.inDays(timestamp, date);
-      // document.getElementById("hours").innerHTML = DateDiff.inHours(timestamp, date);
-
-      
       })
-      // Return array {[item, expiry]}
       .then(console.log)
       // Catch errors
       .catch(function (error) {console.log(error)});
-    }
+}
 
 
-      /////////////////////  GET RECIPES ()
+/////////////////////  GET RECIPES ()
+
 function getRecipes() {
   window.fetch('/getrecipes', {
         "method": "POST",
         "headers": {"Content-Type": "application/json"}
     }).then(function (responseObj){
       recipes = [];
-      // console.log("object!")
       return  responseObj.json()
     }).then(function (list) {
-      // console.log(list)
       var cols = [];
           
         for (var i = 0; i < list.length; i++) {
@@ -362,21 +452,27 @@ function getRecipes() {
           
         // Create table row tr element of a table
         var tr = table.insertRow(-1);
+        var theader = document.createElement("th");
+        theader.innerHTML = "Rank";
+        tr.appendChild(theader);
         for (var i = 0; i < 2; i++) {
               
             // Create the table header th element
             var theader = document.createElement("th");
             
             theader.innerHTML = cols[i];
-              
+            
             // Append columnName to the table row
             tr.appendChild(theader);
         }
-          
+        
         // Adding the data to the table
         for (var i = 0; i < list.length; i++) {
-            // Create a new row
-            trow = table.insertRow(-1);
+          trow = table.insertRow(-1);
+          var cell = trow.insertCell(-1);
+          cell.innerHTML = i+1
+          // Create a new row
+          // trow = table.insertRow(-1);
             for (var j = 0; j < 2; j++) {
                 var cell = trow.insertCell(-1);
                 if (j===0) {
@@ -386,7 +482,7 @@ function getRecipes() {
                   cell.innerHTML = list[i][cols[j]];
                 }
             }
-          }
+        }
         // Add the newly created table containing json data
         var el = document.getElementById("menu-table");
         el.innerHTML = "";
@@ -403,23 +499,7 @@ function getRecipes() {
           else {
             arr.push(elem.textContent)
           }
-          // console.log(arr)
         })
-      //   //  => function (elem) {
-      //   //   console.log(elem.textContent)
-      //   //   if (elem.textContent === undefined) {
-      //   //   }
-      //   //   else {
-      //   //     var tablepart = elem.textContent;
-      //   //   }
-          
-      // })
-      
-        // var anchors = theAnchorText.innerHTML
-        // data = [];
-        // document.querySelectorAll("#menu-table td").forEach(innerHTML)
-        // console.log(anchors)
-        // console.log(theAnchorText)
       }).then(console.log(getColumn('#menu-table',1)))
       .catch(function (error) {console.log(error)});
 };

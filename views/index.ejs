@@ -394,7 +394,7 @@
                       var mydate = new Date((20+parts[2]), parts[1] - 1, parts[0]); 
                       var cell = trow.insertCell(-1);
                       var today = new Date()
-                      var diff = today.getTime()-mydate
+                      var diff = mydate-today.getTime()
                       var days = Math.floor(diff/(1000*3600*24))
                       if (days>=3) {
                         cell.innerHTML = '<button type="button" class="btn btn-success" style="color:"white" data-toggle="modal" data-target="#successModal">'+ days + " days" + '</button>';

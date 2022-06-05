@@ -3,7 +3,10 @@ const app = express()
 const spawn = require("child_process").spawn;
 require('dotenv').config()
 const mongoURL = process.env.KEY;
+const token = process.env.TELE;
+const chat_id = process.env.CHAT;
 var bodyParser=require("body-parser");
+var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 var MongoClient = require('mongodb').MongoClient;
 var fs = require("fs"),
@@ -50,7 +53,6 @@ app.post('/getdata', (req, res) => {
         res.setHeader("Content-Type", "application/json");
         // Make output readable
         res.end(JSON.stringify(result));
-        // console.log(JSON.stringify(result));
       });
 
 })
@@ -93,7 +95,6 @@ app.post('/getrecipes', (req, res) => {
 
     function getRecipes(arg) {
         return new Promise((resolve, reject) => {
-            console.log(arg)
             PythonShell.run('./words2vec_rec.py', arg, function (err, result) {
                 if (err) throw err;
                 resolve(); // resolve the empty promise
@@ -127,6 +128,19 @@ app.post('/getrecipes', (req, res) => {
             // console.log(string)
             res.send(file);
         });
+});
+
+app.post('/telegram', function(req, res){
+    var data = req.body; //prints john
+    var string = JSON.stringify(data["Message"])
+    console.log(string)
+    var url = 'https://api.telegram.org/bot'+ token + '/sendMessage?chat_id=' + chat_id + '&text=' + string
+    let api = new XMLHttpRequest();
+    api.open("GET", url, true);
+    api.send();
+
+    console.log("Message successfully sent!")
+
 });
 
 

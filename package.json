@@ -30,7 +30,8 @@
     "node": "^17.2.0",
     "plotly.js-dist": "^2.7.0",
     "python-shell": "^3.0.1",
-    "serve-favicon": "^2.5.0"
+    "serve-favicon": "^2.5.0",
+    "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"

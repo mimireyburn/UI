@@ -1,5 +1,5 @@
 <head>
-  <title>Cook Up A Plan</title>
+  <title>Pocket Kitchen</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
@@ -42,6 +42,20 @@
       background-color: #afbc26;
       color:whitesmoke;
     } 
+
+    .navbar-nav>li.active>a:active{
+      background-color: #afbc26;
+      color:whitesmoke;
+    }
+
+    .navbar-nav>li:not(.active)>a:hover {
+      background-color: ghostwhite;
+      color:#afbc26;
+    }
+
+    .navbar-nav a{
+      color:#afbc26;
+    }
 
     .nav-pills>li:not(.active)>a:hover {
       background-color: ghostwhite;
@@ -91,23 +105,23 @@
 
 <!-- MOBILE -->
 
-<nav class="navbar navbar-inverse visible-xs">
+<nav class="navbar navbar-inverse visible-xs" style="background-color:white">
   <div class="container-fluid">
     <div class="navbar-header" style="background-color:#afbc26">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+      <button type="button" style="background-color:#afbc26" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>         
         <span class="icon-bar"></span>                
       </button>
-      <a class="navbar-brand" style="color:whitesmoke" href="#">Pocket Kitchen</a>
+      <a class="navbar-brand" style="color:white" href="#">Pocket Kitchen</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Inventory</a></li>
-        <li><a href="#">Recipes</a></li>
-        <li><a href="#">Notifications</a></li>
-        <li><a href="#">Dashboard</a></li>
+        <li><a id="InventButton" href="#section1">Inventory</a></li>
+        <li><a id="MenuButton" href="#section2">Recipes</a></li>
+        <li><a id="NotifButton" href="#section3">Notifications</a></li>
+        <li><a id="DashButton" href="#section4">Dashboard</a></li>
         <!-- <li><a href="#">Geo</a></li> -->
       </ul>
     </div>
@@ -120,10 +134,10 @@
     <div class="col-sm-3 sidenav hidden-xs" >
       <h2>Pocket Kitchen</h2>
       <ul class="nav nav-pills nav-stacked" >
-        <li><a id="InventButton" href="#section1">Inventory</a></li>
-        <li><a id="MenuButton" href="#section2">Recipes</a></li>
-        <li><a id="NotifButton" href="#section3">Notifications</a></li>
-        <li><a id="" href="#section4">Dashboard</a></li>
+        <li><a id="Web-InventButton" href="#section1">Inventory</a></li>
+        <li><a id="Web-MenuButton" href="#section2">Recipes</a></li>
+        <li><a id="Web-NotifButton" href="#section3">Notifications</a></li>
+        <li><a id="Web-DashButton" href="#section4">Dashboard</a></li>
         <!-- <li><a href="#section3">Geo</a></li> -->
       </ul><br>
     </div>
@@ -218,7 +232,9 @@
       <div class="inventory" id="Inventory">
         <h4>Food Inventory</h4>
         <p id="items"></p>
-        <table class="table" id="table" align = "center" border="1px"></table>
+        <div style="overflow:auto; width:100%;">
+          <table class="table" style="width:100%"  id="table" align = "center" border="1px"></table>
+        </div>
       </div>
       <div class="inventory" id="Recipes" style="display:none">
         <h4>Top 5 Recipes by Inventory</h4>
@@ -229,6 +245,10 @@
           <h4>Notifications</h4>
           <p> Get Telegram alerts about your food inventory </p>
           <a class="btn btn-info btn-lg" href="https://t.me/+SI5QQvoAYv83MGQ8" target="_blank">Get notifications</a>
+      </div>
+      <div class="inventory" id="Dashboard" style="display:none" >
+        <h4>Dashboard</h4>
+        <p>  </p>
       </div>
     </div>
       
@@ -266,13 +286,27 @@ const onClick = function() {
     document.getElementById('Inventory').style.display="none";
     document.getElementById('Notifications').style.display="none";
     document.getElementById('Recipes').style.display="none";
+    document.getElementById('Dashboard').style.display="none";
+    
+    document.getElementById('Web-MenuButton').style.backgroundColor = "white";
+    document.getElementById('Web-NotifButton').style.backgroundColor = "white";
+    document.getElementById('Web-InventButton').style.backgroundColor = "white";
+    document.getElementById('Web-DashButton').style.backgroundColor = "white";
+
+    document.getElementById('Web-MenuButton').style.color = "#afbc26";
+    document.getElementById('Web-NotifButton').style.color = "#afbc26";
+    document.getElementById('Web-InventButton').style.color = "#afbc26";
+    document.getElementById('Web-DashButton').style.color = "#afbc26";
 
     document.getElementById('MenuButton').style.backgroundColor = "white";
     document.getElementById('NotifButton').style.backgroundColor = "white";
     document.getElementById('InventButton').style.backgroundColor = "white";
+    document.getElementById('DashButton').style.backgroundColor = "white";
+
     document.getElementById('MenuButton').style.color = "#afbc26";
     document.getElementById('NotifButton').style.color = "#afbc26";
     document.getElementById('InventButton').style.color = "#afbc26";
+    document.getElementById('DashButton').style.color = "#afbc26";
 
     x.style.display = "block";
     y.style.backgroundColor = "#afbc26";
@@ -289,6 +323,11 @@ const onClick = function() {
   document.getElementById('MenuButton').onclick = onClick;
   document.getElementById('NotifButton').onclick = onClick;
   document.getElementById('InventButton').onclick = onClick;
+  document.getElementById('DashButton').onclick = onClick;
+  document.getElementById('Web-MenuButton').onclick = onClick;
+  document.getElementById('Web-NotifButton').onclick = onClick;
+  document.getElementById('Web-InventButton').onclick = onClick;
+  document.getElementById('Web-DashButton').onclick = onClick;
 
   //////////////  Initialise Variables & Functions here
   var variables = [];
@@ -359,11 +398,10 @@ const onClick = function() {
           
           // remove first col data 
           for (var i = 1; i < cols.length+1; i++) {
-                
               // Create the table header th element
               var theader = document.createElement("th");
               theader.innerHTML = cols[i];
-              if (i==4) {
+              if (i==5) {
                 theader.innerHTML = "Time until expiry"
               }
               // Append columnName to the table row
@@ -390,7 +428,7 @@ const onClick = function() {
                         "Content-Type": "application/json",
                       }
                     })
-                    if (j===3) {
+                    if (j===4) {
                       try {
                         var parts=expiry.split('/');
                       }
@@ -420,7 +458,7 @@ const onClick = function() {
                     let expiry = list[i][cols[3]];
                     cell.innerHTML = list[i][cols[j]];
                     
-                    if (j===3) {
+                    if (j===4) {
                       var parts = expiry.split('/');
                       var mydate = new Date((20+parts[2]), parts[1] - 1, parts[0]); 
                       var cell = trow.insertCell(-1);

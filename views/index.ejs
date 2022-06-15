@@ -118,10 +118,10 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
+        <li><a id="DashButton" href="#section4">Dashboard</a></li>
         <li><a id="InventButton" href="#section1">Inventory</a></li>
         <li><a id="MenuButton" href="#section2">Recipes</a></li>
         <li><a id="NotifButton" href="#section3">Notifications</a></li>
-        <li><a id="DashButton" href="#section4">Dashboard</a></li>
         <!-- <li><a href="#">Geo</a></li> -->
       </ul>
     </div>
@@ -134,10 +134,10 @@
     <div class="col-sm-3 sidenav hidden-xs" >
       <h2>Pocket Kitchen</h2>
       <ul class="nav nav-pills nav-stacked" >
+        <li><a id="Web-DashButton" href="#section4">Dashboard</a></li>
         <li><a id="Web-InventButton" href="#section1">Inventory</a></li>
         <li><a id="Web-MenuButton" href="#section2">Recipes</a></li>
         <li><a id="Web-NotifButton" href="#section3">Notifications</a></li>
-        <li><a id="Web-DashButton" href="#section4">Dashboard</a></li>
         <!-- <li><a href="#section3">Geo</a></li> -->
       </ul><br>
     </div>
@@ -193,7 +193,7 @@
             <h4 class="modal-title">Use me soon!</h4>
           </div>
           <div class="modal-body">
-            <p>Take a look at your recipe suggestions by expiry to use up this item in a tasty way! If you don't have time to use this item, put it on Olio for someone else to use!</p>
+            <p>Take a look at your recipe suggestions by expiry to use up this item in a tasty way! If you don't have time to use this item, put it on Olio for someone else to collect!</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -229,7 +229,11 @@
 
 
     <div class="col-sm-8" style="padding-left:30px; padding-right:30px">
-      <div class="inventory" id="Inventory">
+      <div class="inventory" id="Dashboard" >
+        <h4>Dashboard</h4>
+        <p>  </p>
+      </div>
+      <div class="inventory" id="Inventory" style="display:none">
         <h4>Food Inventory</h4>
         <p id="items"></p>
         <div style="overflow:auto; width:100%;">
@@ -240,15 +244,13 @@
         <h4>Top 5 Recipes by Inventory</h4>
         <p id="recipes" ></p>
         <table class="table" id="menu-table" align = "center" border="1px"></table>
+        <h4>Top 5 Recipes by Expiry</h4>
+        <table class="table" id="exp-table" align = "center" border="1px"></table>
       </div>
       <div class="inventory" id="Notifications" style="display:none" >
           <h4>Notifications</h4>
           <p> Get Telegram alerts about your food inventory </p>
           <a class="btn btn-info btn-lg" href="https://t.me/+SI5QQvoAYv83MGQ8" target="_blank">Get notifications</a>
-      </div>
-      <div class="inventory" id="Dashboard" style="display:none" >
-        <h4>Dashboard</h4>
-        <p>  </p>
       </div>
     </div>
       
@@ -256,26 +258,13 @@
 </body>
 <script>
 
-    /////////////////  START JAVASCRIPT
-  function getColumn(selector, column) {
+/////////////////  START JAVASCRIPT
+function getColumn(selector, column) {
   var rows = document.querySelector(selector).getElementsByTagName('tr');
   return [].slice.call(rows).map(function(tr) {
       return tr.getElementsByTagName('td')[column].innerText;
   });
 }
-
-function readTextFile(file, callback) {
-    var rawFile = new XMLHttpRequest();
-    rawFile.overrideMimeType("application/json");
-    rawFile.open("GET", file, true);
-    rawFile.onreadystatechange = function() {
-        if (rawFile.readyState === 4 && rawFile.status == "200") {
-            callback(rawFile.responseText);
-        }
-    }
-    rawFile.send(null);
-}
-
 
 const onClick = function() {
   // console.log(this.innerHTML)
@@ -324,6 +313,7 @@ const onClick = function() {
   document.getElementById('NotifButton').onclick = onClick;
   document.getElementById('InventButton').onclick = onClick;
   document.getElementById('DashButton').onclick = onClick;
+  
   document.getElementById('Web-MenuButton').onclick = onClick;
   document.getElementById('Web-NotifButton').onclick = onClick;
   document.getElementById('Web-InventButton').onclick = onClick;
@@ -428,6 +418,9 @@ const onClick = function() {
                         "Content-Type": "application/json",
                       }
                     })
+                    // if (j===3) {
+
+                    // }
                     if (j===4) {
                       try {
                         var parts=expiry.split('/');
@@ -472,7 +465,7 @@ const onClick = function() {
                         cell.innerHTML = '<button type="button" class="btn btn-warning" style="color:"white" data-toggle="modal" data-target="#warningModal">'+ days + " days" + '</button>';
                         var send = {Message: "Your " + list[i][cols[1]] + " is expiring soon - check your recipe suggestions to use it today!"}
                         var sendString = JSON.stringify(send);
-                        console.log(send)
+                        // console.log(send)
                         let newReq = window.fetch("/telegram", {
                           method: "POST",
                           body: sendString,
@@ -485,7 +478,7 @@ const onClick = function() {
                         cell.innerHTML = '<button type="button" class="btn btn-danger" style="color:"white" data-toggle="modal" data-target="#dangerModal">'+ days + " days" + '</button>';
                         var send = {Message: "Check if the " + list[i][cols[1]] + " is edible and use it up today!"}
                         var sendString = JSON.stringify(send);
-                        console.log(send)
+                        // console.log(send)
                         let newReq = window.fetch("/telegram", {
                           method: "POST",
                           body: sendString,
@@ -507,14 +500,14 @@ const onClick = function() {
           el.appendChild(table);
       return x
       })
-      .then(function (x) {
-        var ingr = getColumn('#menu-table',2)
-        console.log(ingr)
-        x.forEach(element => 
+      // .then(function (x) {
+      //   var ingr = getColumn('#menu-table',2)
+      //   // console.log(ingr)
+      //   x.forEach(element => 
         
-        console.log(element[0])
-        )
-      })
+      //   console.log(element[0])
+      //   )
+      // })
       // Catch errors
       .catch(function (error) {console.log(error)});
 }
@@ -551,7 +544,7 @@ function getRecipes() {
         var theader = document.createElement("th");
         theader.innerHTML = "Rank";
         tr.appendChild(theader);
-        for (var i = 0; i < 2; i++) {
+        for (var i = 0; i < 3; i++) {
               
             // Create the table header th element
             var theader = document.createElement("th");
@@ -569,7 +562,7 @@ function getRecipes() {
           cell.innerHTML = i+1
           // Create a new row
           // trow = table.insertRow(-1);
-            for (var j = 0; j < 2; j++) {
+            for (var j = 0; j < 3; j++) {
                 var cell = trow.insertCell(-1);
                 if (j===0) {
                   cell.innerHTML = "<a href='" + list[i][cols[3]] + "''>" + list[i][cols[j]] + "</a>";
@@ -586,17 +579,108 @@ function getRecipes() {
         var recipetable = el
         return recipetable
       })
-      .then(function (recipetable) {
-        var arr = [];
-        var theAnchorText = document.querySelectorAll("#menu-table td")
-        var data = theAnchorText.forEach(function (elem) {
-          if (elem.textContent === undefined) {
-          }
-          else {
-            arr.push(elem.textContent)
-          }
+      .then(function(rt) {
+        var menuTableArray = [];
+        var ingrTableArray = [];
+
+        $("table#menu-table tr").each(function() {
+            var arrayOfThisRow = [];
+            var tableData = $(this).find('td');
+            if (tableData.length > 0) {
+                tableData.each(function() { arrayOfThisRow.push($(this).text()); });
+                menuTableArray.push(arrayOfThisRow);
+            }
+        });
+
+        $("table#table tr").each(function() {
+            var arrayOfThisRow = [];
+            var tableData = $(this).find('td');
+            if (tableData.length > 0) {
+                tableData.each(function() { arrayOfThisRow.push($(this).text()); });
+                ingrTableArray.push(arrayOfThisRow);
+            }
+        });
+
+        var inventory = [];
+        var ingredients = [];
+        var score = [];
+        var exp = [];
+        var name = [];
+        
+
+        ingrTableArray.forEach(function (item, index) {
+          inventory.push(item[0])
+          exp.push(item[4].match(/(-?\d+)/g ))
         })
-      }).then(console.log(getColumn('#menu-table',1)))
+
+        menuTableArray.forEach(function (thing, stuff) {
+          name.push(thing[1])
+          ingredients.push(thing[2])
+          score.push(thing[3])
+        })
+
+        len = score.length;
+        var newScore = new Array(len).fill(0);
+        
+        inventory.forEach(function(item, number) {
+          ingredients.forEach(function (recipe, index) {
+            if (recipe.includes(item) === true) {
+              newScore[index] -= exp[number]
+            }
+          })
+        })
+
+        var newTable = [];
+        newScore.forEach(function(value, num) {
+          newTable[num] = [0, name[num], ingredients[num], value]
+        })
+
+        let byExpiry = newTable.sort( (a, b) => {
+          return b[3] - a[3]
+        })
+
+        byExpiry.forEach(function(something, nom) {
+          byExpiry[nom][0] = nom+1
+        })
+
+        Titles = ["Rank", "Recipe", "Ingredients", "Score"]
+    
+        //create a Table Object
+        let table = document.createElement('table');
+        table.classList.add("table")
+
+        var tr = table.insertRow(-1);
+        var theader = document.createElement("th");
+        for (var i = 0; i < 4; i++) {
+              
+            // Create the table header th element
+            var theader = document.createElement("th");
+            
+            theader.innerHTML = Titles[i];
+            
+            // Append columnName to the table row
+            tr.appendChild(theader);
+        }
+        //iterate over every array(row) within byExpiry
+        for (let row of byExpiry) {
+        //Insert a new row element into the table element
+          table.insertRow();
+        //Iterate over every index(cell) in each array(row)
+          for (let cell of row) {
+        //While iterating over the index(cell)
+        //insert a cell into the table element
+            let newCell = table.rows[table.rows.length - 1].insertCell();
+        //add text to the created cell element
+            newCell.textContent = cell;
+          }
+        }
+        var el = document.getElementById("exp-table");
+        el.innerHTML = "";
+        el.appendChild(table);
+        //append the compiled table to the DOM
+        // document.body.appendChild(table);
+        
+      })
       .catch(function (error) {console.log(error)});
 };
 

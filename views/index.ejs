@@ -567,6 +567,9 @@ function getRecipes() {
                 if (j===0) {
                   cell.innerHTML = "<a href='" + list[i][cols[3]] + "''>" + list[i][cols[j]] + "</a>";
                 }
+                else if (j===2) {
+                  cell.innerHTML = Math.round(list[i][cols[j]]*100) / 100;
+                }
                 else {
                   cell.innerHTML = list[i][cols[j]];
                 }

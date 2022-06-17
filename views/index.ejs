@@ -466,26 +466,26 @@ const onClick = function() {
                         var send = {Message: "Your " + list[i][cols[1]] + " is expiring soon - check your recipe suggestions to use it today!"}
                         var sendString = JSON.stringify(send);
                         // console.log(send)
-                        let newReq = window.fetch("/telegram", {
-                          method: "POST",
-                          body: sendString,
-                          headers: {
-                            "Content-Type": "application/json",
-                          }
-                        })
+                        // let newReq = window.fetch("/telegram", {
+                        //   method: "POST",
+                        //   body: sendString,
+                        //   headers: {
+                        //     "Content-Type": "application/json",
+                        //   }
+                        // })
                       }
                       else {
                         cell.innerHTML = '<button type="button" class="btn btn-danger" style="color:"white" data-toggle="modal" data-target="#dangerModal">'+ days + " days" + '</button>';
                         var send = {Message: "Check if the " + list[i][cols[1]] + " is edible and use it up today!"}
                         var sendString = JSON.stringify(send);
                         // console.log(send)
-                        let newReq = window.fetch("/telegram", {
-                          method: "POST",
-                          body: sendString,
-                          headers: {
-                            "Content-Type": "application/json",
-                          }
-                        })
+                        // let newReq = window.fetch("/telegram", {
+                        //   method: "POST",
+                        //   body: sendString,
+                        //   headers: {
+                        //     "Content-Type": "application/json",
+                        //   }
+                        // })
                       }
                       x[i] = [list[i][cols[1]], days];
                     }

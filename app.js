@@ -130,18 +130,18 @@ app.post('/getrecipes', (req, res) => {
         });
 });
 
-app.post('/telegram', function(req, res){
-    var data = req.body; //prints john
-    var string = JSON.stringify(data["Message"])
-    console.log(string)
-    var url = 'https://api.telegram.org/bot'+ token + '/sendMessage?chat_id=' + chat_id + '&text=' + string
-    let api = new XMLHttpRequest();
-    api.open("GET", url, true);
-    api.send();
+// app.post('/telegram', function(req, res){
+//     var data = req.body; //prints john
+//     var string = JSON.stringify(data["Message"])
+//     // console.log(string)
+//     var url = 'https://api.telegram.org/bot'+ token + '/sendMessage?chat_id=' + chat_id + '&text=' + string
+//     let api = new XMLHttpRequest();
+//     api.open("GET", url, true);
+//     api.send();
 
-    console.log("Message successfully sent!")
+//     console.log("Message successfully sent!")
 
-});
+// });
 
 
 
